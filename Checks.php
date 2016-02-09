@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Products</title>
+	<title>Checks</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="css/style.css" charset="utf-8">
@@ -27,10 +27,10 @@
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="Products.php">Products<span class="sr-only">(current)</span></a></li>
+					<li><a href="Products.php">Products</a></li>
 					<li><a href="Users.php">Users</a></li>
 					<li><a href="ManualOrder.php">Manual Order</a></li>
-					<li><a href="Checks.php">Checks</a></li>
+					<li class="active"><a href="Checks.php">Checks<span class="sr-only">(current)</span></a></li>
 		      	</ul>
 		      	<ul class="nav navbar-nav navbar-right">
 					<li><img src="images/admin.png" alt="admin" width="50px" height="50px" /></li>
@@ -41,22 +41,13 @@
 	</nav>
 
     <div class="container">
-        <a href="AddProduct.php" class="add-user btn btn-info">Add Product</a><br><br>
-        <table class="table table">
-			<thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Price</th>
-					<th>Image</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-
-            </tbody>
-		</table>
+		<br>
+        <input type="date" class="form-control date" name="date" >
+        <input type="date" class="form-control date" name="date" >
+        <select class="form-control user" name="user">
+            <option disabled selected hidden>Users</option>
+        </select>
     </div>
-
 
 </body>
 </html>

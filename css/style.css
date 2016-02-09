@@ -1,0 +1,74 @@
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #333;
+    background-image: linear-gradient(to right, #ccc, #333, #ccc);
+}
+
+.myform {
+    display: inline-block;
+}
+
+.image {
+    height: 120px;
+    width: 170px;
+}
+
+.date {
+    width: 30%;
+    margin-right: 5%;
+    display: inline-block;
+}
+
+.user {
+    width: 30%;
+    margin-top: 20px;
+}
+
+.room {
+    width: 50%;
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.add-user, .mynav {
+    float: right;
+    margin-top: 20px;
+}
+
+.price, .category {
+    width: 50%;
+    display: inline-block;
+}
+
+.desc {
+    margin-left: 15px
+}
+
+.pic {
+    width: 75%;
+    display: inline-block;
+}
+
+.loginForm {
+    width: 30%;
+    margin: 120px auto 0;
+}
+
+.orders {
+    border: 1px solid #aaa;
+}
+
+.orderSubmit {
+    margin-bottom: 20px;
+    float: right;
+}
+
+#wrapper {
+    width: 30%;
+    margin: auto auto;
+}
+#title {
+    color: white;
+}

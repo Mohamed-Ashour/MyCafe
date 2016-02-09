@@ -4,26 +4,9 @@
 	<title>Login</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/style.css" charset="utf-8">
 	<script src="js/jquery-2.2.0.min.js"></script>
-	<style>
-		.add-user, .mynav {
-			float: right;
-			margin-top: 20px;
-		}
-		.users-num {
-			text-align: center;
-		}
-		form {
-			width: 40%;
-			margin: 0 auto;
-		}
-		.div {
-			margin-top: 10%;
-		}
-		.title {
-			text-align: center;
-		}
-	</style>
+	<script src="js/bootstrap.min.js"></script>
 </head>
 <body>
 	<div class="container">
@@ -66,7 +49,7 @@
 
 	    <div class="container div">
 
-	        <form method="post" action="login.php" class="form-horizontal">
+	        <form method="post" action="login.php" class="form-horizontal loginForm">
 				<h1 class="title">My Cafe</h1><br>
 				<div class="form-group">
 	                <label class="control-label">Emaile</label>

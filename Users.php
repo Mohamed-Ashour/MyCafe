@@ -4,57 +4,44 @@
 	<title>Users</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/style.css" charset="utf-8">
 	<script src="js/jquery-2.2.0.min.js"></script>
-    <style>
-        .add-user, .mynav {
-            float: right;
-            margin-top: 20px;
-        }
-        .users-num {
-            text-align: center;
-        }
-        form {
-            display: inline-block;
-        }
-        .image {
-            height: 120px;
-            width: 170px;
-        }
-    </style>
+	<script src="js/bootstrap.min.js"></script>
 </head>
 <body>
-		<?php
-            #start session
-            session_start();
-		?>
+	<?php
+        session_start();
+	?>
+
+	<nav class="navbar navbar-inverse navbar-static-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="AdminHome.php">MyCafe</a>
+			</div>
+
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li><a href="Products.php">Products</a></li>
+					<li class="active"><a href="Users.php">Users<span class="sr-only">(current)</span></a></li>
+					<li><a href="ManualOrder.php">Manual Order</a></li>
+					<li><a href="Checks.php">Checks</a></li>
+		      	</ul>
+		      	<ul class="nav navbar-nav navbar-right">
+					<li><img src="images/admin.png" alt="admin" width="50px" height="50px" /></li>
+		        	<li><a>Admin</a></li>
+				</ul>
+		    </div>
+		</div>
+	</nav>
 
     <div class="container">
-		 <!-- nav -->
-
-		 <div class="navbar-header">
-	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-	        <span class="sr-only">Toggle navigation</span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	      </button>
-	      <a class="navbar-brand" href="#">MyCafe</a>
-    	</div>
-	    	<!-- Collect the nav links, forms, and other content for toggling -->
-		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-		      <ul class="nav navbar-nav">
-		        <li class="active"><a href="#">Products<span class="sr-only">(current)</span></a></li>
-				<li><a href="#">Users</a></li>
-				<li><a href="#">Manual Order</a></li>
-		        <li><a href="#">Checks</a></li>
-		      </ul>
-		      <ul class="nav navbar-nav navbar-right">
-		        <li><a href="#">Admin</a></li>
-		      </ul>
-	    </div>
-
-		<!-- end nav -->
-        <a href="registration.php" class="add-user btn btn-info">Add New User</a><br><br>
+		<a href="AddUser.php" class="add-user btn btn-info">Add User</a><br><br>
         <table class="table table">
 			<thead>
                 <tr>
@@ -69,11 +56,6 @@
 
             </tbody>
 		</table>
-        <p class="users-num well">
-            Total number of registered users:
-        </p>
     </div>
-
-
 </body>
 </html>

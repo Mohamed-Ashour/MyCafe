@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Products</title>
+	<title>Add Product</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="css/style.css" charset="utf-8">
@@ -9,9 +9,9 @@
 	<script src="js/bootstrap.min.js"></script>
 </head>
 <body>
-	<?php
-        session_start();
-	?>
+    <?php
+    	session_start();
+    ?>
 
 	<nav class="navbar navbar-inverse navbar-static-top">
 		<div class="container-fluid">
@@ -27,7 +27,7 @@
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="Products.php">Products<span class="sr-only">(current)</span></a></li>
+					<li><a href="Products.php">Products</a></li>
 					<li><a href="Users.php">Users</a></li>
 					<li><a href="ManualOrder.php">Manual Order</a></li>
 					<li><a href="Checks.php">Checks</a></li>
@@ -40,23 +40,27 @@
 		</div>
 	</nav>
 
-    <div class="container">
-        <a href="AddProduct.php" class="add-user btn btn-info">Add Product</a><br><br>
-        <table class="table table">
-			<thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Price</th>
-					<th>Image</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
+	<div class="container" id="wrapper">
+        <h1>Add Product</h1>
+		<form method="post" action="done.php" class="form-horizontal" enctype="multipart/form-data">
+			<div class="form-group panel">
+				<label class="control-label">Prduct Name</label>
+				<input type="text" name="product_name" class="form-control"><br>
+                <label>Price</label><br>
+				<input type="number" name="price" min="0" class="form-control price" > <span class="desc">EGP</span> <br>
+                <label class="control-label">Category</label><br>
+				<select class="form-control category" name="category">
+					<option disabled selected hidden>Category</option>
+				</select>
+				<a href="#" class="desc">Add category</a><br><br>
+                <label class="control-label">Product picture</label><br>
+				<input type="file" name="image" class="form-control pic">
+				<br><br>
 
-            </tbody>
-		</table>
-    </div>
-
-
+				<button type="submit" value="Submit" class="btn btn-info">Submit</button>
+	  			<button type="reset" value="Reset" class="btn btn-alert">Reset</button>
+  			</div>
+		</form>
+	</div>
 </body>
 </html>
