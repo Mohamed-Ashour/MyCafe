@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css" charset="utf-8">
+	<link rel="icon" href="images/favicon.ico" type="image/gif" sizes="64x64">
 	<script src="js/jquery-2.2.0.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 </head>
@@ -41,7 +42,7 @@
 	</nav>
 
     <div class="container">
-        
+
     </div>
 
 

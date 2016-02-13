@@ -1,5 +1,5 @@
 login 						DONE
-order use		user home	user
+order use		userHome	user
 my orders					user
 order admin					admin
 products					admin
@@ -7,4 +7,4 @@ users						admin
 add user 					admin
 add product 				admin
 checks	 					admin
-admin home 		admin home	admin
+admin home 		adminHome	admin
