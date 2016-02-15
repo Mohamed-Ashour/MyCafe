@@ -7,10 +7,6 @@
 -- Server version: 5.5.47-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.14
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -20,8 +16,10 @@ SET time_zone = "+00:00";
 -- Database: `cafeteria`
 --
 
--- --------------------------------------------------------
+create database cafeteria;
 
+use cafeteria;
+-- --------------------------------------------------------
 --
 -- Table structure for table `categories`
 --
