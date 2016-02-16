@@ -60,7 +60,7 @@ hr {
     border: 1px solid #aaa;
 }
 
-.orderSubmit {
+.orderSubmit, .orderSum {
     margin-bottom: 20px;
     float: right;
 }

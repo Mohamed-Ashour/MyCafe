@@ -42,6 +42,7 @@
 	</nav>
 
     <div class="container">
+    	<!-- our Orders -->
         <div class="col-lg-4 orders">
             <form class="form-horizontal" action="" method="post">
                 <label class="control-label">Notes</label>
@@ -52,8 +53,13 @@
                     <option disabled selected hidden>Choose your room</option>
 				</select>
                 <hr>
+                <label class="orderSum">EGP</label><br><br>
                 <button type="submit" value="Submit" class="btn btn-info orderSubmit">Confirm</button>
             </form>
+        </div>
+        <!-- our Products -->
+        <div class="clo-lg-8 products">
+			        	
         </div>
     </div>
 

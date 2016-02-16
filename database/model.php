@@ -45,7 +45,6 @@ class ORM {
      */
     function setTable($table) {
         $this->table = $table;
-        
     }
 
     /**
