@@ -11,7 +11,13 @@
 </head>
 <body>
 	<?php
-        session_start();
+
+	session_start();
+	require_once('database/model.php');
+	$mydb = new ORM();
+	$mydb->setTable("products");
+	$products = $mydb->select_all();
+
 	?>
 
 	<nav class="navbar navbar-inverse navbar-static-top">
@@ -53,7 +59,30 @@
                 </tr>
             </thead>
             <tbody>
+                <?php
 
+                while($row = $products->fetch_assoc()) {
+
+                    echo "<tr>";
+                    echo "<td>".$row["name"]."</td>";
+                    echo "<td>".$row["price"]."</td>";
+                    echo "<td><img src=".$row["pic"]." class='image'></td>";
+                    echo "<td>".
+                        "
+                            <form method='post' action='edit.php' class='action-btns'>
+                                <input type='hidden' name='line' value='$row[id]'>
+                                <button type='submit' class='btn btn-default'>Edit</button>
+                            </form>
+                            <form method='post' action='deleted.php' class='action-btns'>
+                                <input type='hidden' name='id' value='$row[id]'>
+                                <button type='submit' class='btn btn-danger'>Delete</button>
+                            </form>
+                            "
+                        ."</td>";
+                    echo "</tr>";
+                }
+
+                ?>
             </tbody>
 		</table>
     </div>

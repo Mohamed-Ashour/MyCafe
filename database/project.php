@@ -300,8 +300,6 @@ public function get_first($table)
 			
 			echo $this->form($form_fields);
 			echo '<a href="'.$_SERVER['PHP_SELF'].'">Back</a>';
-
-		
 		}else
 
 		{
@@ -484,11 +482,11 @@ public function get_first($table)
 
 }
 	
-$data =new MySQL_DB('localhost','root','iti','cafteria','utf_8');
-var_dump($data->show_table("users","user_id","",""));
-$data=$data->show_table("users","user_id","","");
-while ($row= mysql_fetch_array($data)) {
-	echo $row['name'];
-}
+$data =new MySQL_DB('localhost','bears','iti','cafeteria','utf_8');
+var_dump($data->show_table("users","user_id","" ,""));
+//$data=$data->show_table("users","user_id","","");
+//while ($row= mysql_fetch_array($data)) {
+//	echo $row['name'];
+//}
 
 ?>

@@ -5,8 +5,8 @@
  */
 $GLOBALS['conf'] = array(
     'host'=>'localhost',
-    'username'=>'root',
-    'password' =>'123',
+    'username'=>'bears',
+    'password' =>'iti',
     'database' =>'cafeteria'
 );
 

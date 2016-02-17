@@ -12,35 +12,37 @@
 <body>
 	<div class="container">
 		<?php
-	        session_start();
-	        if($_POST){
-	            $users = fopen("users", "r+");
-	            $arr=file("users");
-	            fclose($users);
+
+		session_start();
+
+
+		if($_POST) {
+                require_once('database/model.php');
+                $mydb = new ORM();
+                $mydb->setTable("users");
+                $users = $mydb->select_all();
 	            if(!empty($_POST["keep_logged"])){
-	                foreach($arr as $line) {
-	                    list($id, $fname, $lname, $gender, $skills, $username, $email, $password, $adress, $dept, $image_path) = explode(";", $line);
-	                    if ($_POST['username'] == $username && $_POST['password'] == $password && $id == 0) {
+	                while($row = $users->fetch_assoc()) {
+	                    if ($_POST['email'] == $row["email"] && hash("md5", $_POST['password']) == $row["password"] && $row["is_Admin"]) {
 	                        setcookie('user', 'admin', time() + (86400 * 30));
-	                        setcookie('user_name', $username, time() + (86400 * 30));
+	                        setcookie('email', $row["email"], time() + (86400 * 30));
 	                        header("Location: admin.php");
-	                    } elseif ($_POST['username'] == $username && $_POST['password'] == $password) {
+	                    } elseif ($_POST['email'] == $row["email"] && hash("md5", $_POST['password']) == $row["password"]) {
 	                        setcookie('user', 'blogger', time() + (86400 * 30));
-	                        setcookie('user_name', $username, time() + (86400 * 30));
+	                        setcookie('email', $row["email"], time() + (86400 * 30));
 	                        header("Location: blogger_page.php");
 	                    }
 	                }
 	            }
 	            elseif(empty($_POST["keep_logged"])){
-	                foreach($arr as $line) {
-	                    list($id, $fname, $lname, $gender, $skills, $username, $email, $password, $adress, $dept, $image_path) = explode(";", $line);
-	                    if ($_POST['username'] == $username && $_POST['password'] == $password && $id == 0) {
+					while($row = $users->fetch_assoc()) {
+	                    if ($_POST['email'] == $row["email"] && hash("md5", $_POST['password']) == $row["password"] && $row["is_Admin"]) {
 	                        $_SESSION['user'] = "admin";
-	                        $_SESSION['user_name'] = $username;
+	                        $_SESSION['email'] = $row["email"];
 	                        header("Location: admin.php");
-	                    } elseif ($_POST['username'] == $username && $_POST['password'] == $password) {
+	                    } elseif ($_POST['email'] == $row["email"] && hash("md5", $_POST['password']) == $row["password"]) {
 	                        $_SESSION['user']="blogger";
-	                        $_SESSION['user_name'] = $username;
+	                        $_SESSION['email'] = $row["email"];
 	                        header("Location: blogger_page.php");
 	                    }
 	                }
@@ -50,7 +52,7 @@
 
 	    <div class="container div">
 
-	        <form method="post" action="login.php" class="form-horizontal loginForm">
+	        <form method="post" action="Login.php" class="form-horizontal loginForm">
 				<h1 class="title">My Cafe</h1><br>
 				<div class="form-group">
 	                <label class="control-label">Emaile</label>
@@ -66,7 +68,7 @@
 
 	                <?php
 	                    if($_POST){
-	                        echo "<br><br><p class='alert alert-danger'>Wrong username or password</p>";
+	                        echo "<br><br><p class='alert alert-danger'>Wrong email or password</p>";
 	                    }
 	                ?>
 	            </div>

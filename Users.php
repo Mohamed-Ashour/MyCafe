@@ -11,7 +11,13 @@
 </head>
 <body>
 	<?php
-        session_start();
+
+	session_start();
+	require_once('database/model.php');
+	$mydb = new ORM();
+	$mydb->setTable("users");
+	$users = $mydb->select_all();
+
 	?>
 
 	<nav class="navbar navbar-inverse navbar-static-top">
@@ -54,7 +60,31 @@
                 </tr>
             </thead>
             <tbody>
+			<?php
 
+			while($row = $users->fetch_assoc()) {
+
+				echo "<tr>";
+				echo "<td>".$row["name"]."</td>";
+				echo "<td>".$row["room_no"]."</td>";
+				echo "<td><img src=".$row["pic"]." class='image'></td>";
+				echo "<td>".$row["ext"]."</td>";
+				echo "<td>".
+					"
+						<form method='post' action='edit.php'>
+							<input type='hidden' name='line' value='$row[id]'>
+							<button type='submit' class='btn btn-default'>Edit</button>
+						</form>
+						<form method='post' action='deleted.php'>
+							<input type='hidden' name='id' value='$row[id]'>
+							<button type='submit' class='btn btn-default'>Delete</button>
+						</form>
+						"
+					."</td>";
+				echo "</tr>";
+			}
+
+			?>
             </tbody>
 		</table>
     </div>
