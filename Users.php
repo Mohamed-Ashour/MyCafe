@@ -63,7 +63,7 @@
 			<?php
 
 			while($row = $users->fetch_assoc()) {
-
+                $id = $row['id'];
 				echo "<tr>";
 				echo "<td>".$row["name"]."</td>";
 				echo "<td>".$row["room_no"]."</td>";
@@ -71,15 +71,15 @@
 				echo "<td>".$row["ext"]."</td>";
 				echo "<td>".
 					"
-						<form method='post' action='edit.php'>
-							<input type='hidden' name='line' value='$row[id]'>
-							<button type='submit' class='btn btn-default'>Edit</button>
+						<form method='post' action='EditUser.php' class='action-btns'>
+							<input type='hidden' name='id' value='$id'>
+							<button type='submit' class='btn btn-success'>Edit</button>
 						</form>
-						<form method='post' action='deleted.php'>
-							<input type='hidden' name='id' value='$row[id]'>
-							<button type='submit' class='btn btn-default'>Delete</button>
+						<form method='post' action='Users.php' class='action-btns'>
+							<input type='hidden' name='id' value='$id'>
+							<button type='submit' class='btn btn-danger'>Delete</button>
 						</form>
-						"
+					"
 					."</td>";
 				echo "</tr>";
 			}
