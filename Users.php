@@ -63,25 +63,27 @@
 			<?php
 
 			while($row = $users->fetch_assoc()) {
-                $id = $row['id'];
-				echo "<tr>";
-				echo "<td>".$row["name"]."</td>";
-				echo "<td>".$row["room_no"]."</td>";
-				echo "<td><img src=".$row["pic"]." class='image'></td>";
-				echo "<td>".$row["ext"]."</td>";
-				echo "<td>".
-					"
-						<form method='post' action='EditUser.php' class='action-btns'>
-							<input type='hidden' name='id' value='$id'>
-							<button type='submit' class='btn btn-success'>Edit</button>
-						</form>
-						<form method='post' action='Users.php' class='action-btns'>
-							<input type='hidden' name='id' value='$id'>
-							<button type='submit' class='btn btn-danger'>Delete</button>
-						</form>
-					"
-					."</td>";
-				echo "</tr>";
+				if($row['is_admin']==0) {
+	                $id = $row['id'];
+					echo "<tr>";
+					echo "<td>".$row["name"]."</td>";
+					echo "<td>".$row["room_no"]."</td>";
+					echo "<td><img src=images/users/".$row['pic']." class='image'></td>";
+					echo "<td>".$row["ext"]."</td>";
+					echo "<td>".
+						"
+							<form method='post' action='EditUser.php' class='action-btns'>
+								<input type='hidden' name='id' value='$id'>
+								<button type='submit' class='btn btn-success'>Edit</button>
+							</form>
+							<form method='post' action='Users.php' class='action-btns'>
+								<input type='hidden' name='id' value='$id'>
+								<button type='submit' class='btn btn-danger'>Delete</button>
+							</form>
+						"
+						."</td>";
+					echo "</tr>";
+				}
 			}
 
 			?>

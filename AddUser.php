@@ -41,9 +41,75 @@
 		</div>
 	</nav>
 
+
+
+
 	<div class="container" id="wrapper">
-        <h1>Add User</h1>
-		<form method="post" action="done.php" class="form-horizontal" enctype="multipart/form-data">
+		<?php
+
+		if($_POST){
+			$key=0;
+
+			if (empty($_POST["name"])) {
+				echo "<h4 class='alert-danger'> Name is required</h4>";
+				$key=1;
+			}
+
+			$pattern='/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/';
+
+			if(!preg_match($pattern, $_POST["email"]))
+			{
+				echo "<h4 class='alert-danger'> Email is not valid</h4>";
+				$key=1;
+			}
+
+			if (empty($_POST["password"])) {
+				echo "<h4 class='alert-danger'> Password is required</h4>";
+				$key=1;
+			}
+
+			elseif ($_POST["password"] != $_POST["password_con"]) {
+				echo "<h4 class='alert-danger'> Password dose not match password confirmation</h4>";
+				$key=1;
+			}
+
+			if (empty($_POST["room"])) {
+				echo "<h4 class='alert-danger'> Room no is required</h4>";
+				$key=1;
+			}
+
+			if (empty($_POST["ext"])) {
+				echo "<h4 class='alert-danger'> User Ext. is required</h4>";
+				$key=1;
+			}
+
+			if ($key==0) {
+				// image handling
+				if( !empty($_FILES['image']['name']) ){
+					$image_path="images/users/".$_FILES['image']['name'];
+					move_uploaded_file($_FILES["image"]["tmp_name"], $image_path);
+
+					$image = $_FILES['image']['name'];
+				}
+				else {
+					$image = 'default.png';
+				}
+				// database insertion
+				require_once('database/model.php');
+				$mydb = new ORM();
+				$mydb->setTable("users");
+				$user = $arrayName = array('name' => $_POST["name"] , 'email' => $_POST["email"] ,
+				'password' => hash("md5", $_POST['password']) , 'room_no' => $_POST["room"] ,
+				'ext' => $_POST["ext"] , 'is_admin' => 0 , 'pic' => $image );
+				$products = $mydb->insert($user);
+				//header("Location: Users.php");
+			}
+		}
+
+		?>
+
+	    <h1>Add User</h1>
+		<form method="post" action="AddUser.php" class="form-horizontal" enctype="multipart/form-data">
 			<div class="form-group panel">
 				<label class="control-label">Name</label>
 				<input type="name" name="name" class="form-control ">

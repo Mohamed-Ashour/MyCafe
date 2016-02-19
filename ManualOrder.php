@@ -44,7 +44,7 @@ require 'database/model.php';
 		</div>
 	</nav>
 
-   
+
         <div class="container">
             <div class="col-md-3 panel panel-default"  id="create_order">
                 <div class="panel panel-heading panel panel-warning">
@@ -110,7 +110,7 @@ require 'database/model.php';
 
                             while ($user = $all_users->fetch_assoc()) {
                                 ?>
-                                <option value="<?php echo $user['name']; ?>"> <?php echo $user['name']; ?> 
+                                <option value="<?php echo $user['name']; ?>"> <?php echo $user['name']; ?>
                                     <?php
                                 }
                             } else {
@@ -161,10 +161,10 @@ require 'database/model.php';
         </div>
         <script>
 
-            //global array of products id 
+            //global array of products id
             var products_id = [];
             /**
-             * this function to append the product in order form 
+             * this function to append the product in order form
              * @param {type} name
              * @param {type} id
              * @param {type} price
@@ -327,7 +327,7 @@ require 'database/model.php';
 
                 //get the div of product by it`s id number
                 var elem_exists_product = document.getElementById(id);
-                //get value of the product 
+                //get value of the product
                 var value = elem_exists_product.childNodes[2].value;
                 value = parseInt(value);
                 //if condition to make the value of product not decrease about 1

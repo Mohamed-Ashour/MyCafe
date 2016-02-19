@@ -66,7 +66,7 @@
                     echo "<tr>";
                     echo "<td>".$row["name"]."</td>";
                     echo "<td>".$row["price"]."</td>";
-                    echo "<td><img src=".$row["pic"]." class='image'></td>";
+                    echo "<td><img src='images/products/".$row['pic']."' class='image'></td>";
                     echo "<td>".
                         "
                             <form method='post' action='EditProduct.php' class='action-btns'>

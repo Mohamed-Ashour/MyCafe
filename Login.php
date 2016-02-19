@@ -26,11 +26,11 @@
 	                    if ($_POST['email'] == $row["email"] && hash("md5", $_POST['password']) == $row["password"] && $row["is_Admin"]) {
 	                        setcookie('user', 'admin', time() + (86400 * 30));
 	                        setcookie('email', $row["email"], time() + (86400 * 30));
-	                        header("Location: admin.php");
+	                        header("Location: AdminHome.php");
 	                    } elseif ($_POST['email'] == $row["email"] && hash("md5", $_POST['password']) == $row["password"]) {
-	                        setcookie('user', 'blogger', time() + (86400 * 30));
+	                        setcookie('user', 'client', time() + (86400 * 30));
 	                        setcookie('email', $row["email"], time() + (86400 * 30));
-	                        header("Location: blogger_page.php");
+	                        header("Location: UserOrder.php");
 	                    }
 	                }
 	            }
@@ -39,11 +39,11 @@
 	                    if ($_POST['email'] == $row["email"] && hash("md5", $_POST['password']) == $row["password"] && $row["is_Admin"]) {
 	                        $_SESSION['user'] = "admin";
 	                        $_SESSION['email'] = $row["email"];
-	                        header("Location: admin.php");
+	                        header("Location: AdminHome.php");
 	                    } elseif ($_POST['email'] == $row["email"] && hash("md5", $_POST['password']) == $row["password"]) {
-	                        $_SESSION['user']="blogger";
+	                        $_SESSION['user']= "client";
 	                        $_SESSION['email'] = $row["email"];
-	                        header("Location: blogger_page.php");
+	                        header("Location: UserOrder.php");
 	                    }
 	                }
 	            }
