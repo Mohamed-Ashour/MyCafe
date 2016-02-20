@@ -28,8 +28,9 @@
 	                        setcookie('user_id', $row["id"], time() + (86400 * 30));
 	                        header("Location: AdminHome.php");
 	                    } elseif ($_POST['email'] == $row["email"] && hash("md5", $_POST['password']) == $row["password"]) {
-	                        setcookie('user', 'client', time() + (86400 * 30));
+	                        setcookie('user', $row["name"], time() + (86400 * 30));
 	                        setcookie('user_id', $row["id"], time() + (86400 * 30));
+							setcookie('user_pic', $row["pic"], time() + (86400 * 30));
 	                        header("Location: UserOrder.php");
 	                    }
 	                }
@@ -41,8 +42,9 @@
 	                        $_SESSION['user_id'] = $row["id"];
 	                        header("Location: AdminHome.php");
 	                    } elseif ($_POST['email'] == $row["email"] && hash("md5", $_POST['password']) == $row["password"]) {
-	                        $_SESSION['user']= "client";
+	                        $_SESSION['user']= $row['name'];
 	                        $_SESSION['user_id'] = $row["id"];
+							$_SESSION['user_pic'] = $row["pic"];
 	                        header("Location: UserOrder.php");
 	                    }
 	                }

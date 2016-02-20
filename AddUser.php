@@ -56,6 +56,12 @@
 				<ul class="nav navbar-nav navbar-right">
 					<li><img src="images/admin.png" alt="admin" width="50px" height="50px" /></li>
 					<li><a>Admin</a></li>
+					<li>
+						<form action="Logout.php" method="post" >
+				            <input type="hidden" name="ss" value="any">
+				            <button type="submit" class="add-user btn btn-default logout">Logout</button>
+				        </form>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -132,17 +138,17 @@
 		<form method="post" action="AddUser.php" class="form-horizontal" enctype="multipart/form-data">
 			<div class="form-group panel">
 				<label class="control-label">Name</label>
-				<input type="name" name="name" class="form-control ">
+				<input required type="name" name="name" class="form-control ">
                 <label class="control-label">Email</label>
-				<input type="email" name="email" class="form-control" >
+				<input required type="email" name="email" class="form-control" >
                 <label class="control-label">Password</label>
-				<input type="password" name="password" class="form-control">
+				<input required type="password" name="password" class="form-control">
                 <label class="control-label">Confirm Password</label>
-				<input type="password" name="password_con" class="form-control">
+				<input required type="password" name="password_con" class="form-control">
                 <label class="control-label">Room no</label>
-				<input type="number" name="room" class="form-control">
+				<input required type="number" name="room" class="form-control">
                 <label class="control-label">Ext.</label>
-				<input type="tel" name="ext" class="form-control">
+				<input required type="tel" name="ext" class="form-control">
                 <label class="control-label">Profile picture</label>
 				<input type="file" name="image" class="form-control">
 				<br><br>
