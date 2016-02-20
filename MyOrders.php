@@ -160,449 +160,277 @@ require 'database/model.php';
 
        <script>
 
-
+            //global array of products id 
+            var products_id = [];
             /**
-             * function to get the value of date to when key up
-             * @returns {Element.value}
+             * this function to append the product in order form 
+             * @param {type} name
+             * @param {type} id
+             * @param {type} price
+             * @returns {undefined}
              */
-            function get_date_to() {
-                return document.getElementById("date_to").value;
-            }
+            function add_product(name, id, price) {
+                //if condition to check id the product is ordered before in this
+                //order to increase the amount or not
+                //check if the id of the product in the global array or not
+                if (products_id.indexOf(id) === -1) {
+                    //if product isn`t orderd before push it`s id in the array of products
+                    products_id.push(id);
+                    //select the div of order to append on the products
+                    var elem_order = document.getElementById("create_order_products");
+                    //create div it`s id equal to the product id
+                    var elem_product = document.createElement("div");
+                    elem_product.setAttribute("id", id);
+                    elem_product.setAttribute("class", "product");
+                    //create label for product with it`s name
+                    var elem_product_name = document.createElement("label");
+                    elem_product_name.setAttribute("class", " control-label");
+                    elem_product_name.innerHTML = "  Name: " + name;
+                    //create input field for amount of product
+                    var elem_product_amount = document.createElement("input");
+                    elem_product_amount.setAttribute("class", "form-control");
+                    elem_product_amount.setAttribute("type", "number");
+                    elem_product_amount.setAttribute("name", "amount");
+                    elem_product_amount.setAttribute("value", "1");
+                    elem_product_amount.setAttribute("min", "1");
+                    elem_product_amount.setAttribute("onclick", "add_amount(" + id + "," + price + ")");
 
-            /**
-             * function to get the value of date from when key up
-             * @returns {Element.value}
-             */
-            function get_date_from() {
-                return document.getElementById("date_from").value;
-            }
+                    //create label for product with it`s price
+                    var elem_product_price = document.createElement("label");
+                    elem_product_price.setAttribute("class", " control-label");
+                    elem_product_price.innerHTML = "  Price: " + price;
 
-            //get the total price for default date
-            var date_to = get_date_to();
-            var date_from = get_date_from();
-            set_total_price(date_to, date_from, "<?php echo $_SESSION['user_name']; ?>");
-
-
-            /**
-             * if there is the value for date to and date from select orders
-             */
-
-            function select_orders() {
-
-
-                var date_to = get_date_to();
-                var date_from = get_date_from();
-                //get the user name
-                var user_name = document.getElementById("user_name").value;
-                console.log(user_name);
-
-                //get orders when the user select dates
-                if (date_to !== "" && date_from !== "") {
-
-
-
-                    //open xmlhttp request that render to user_get_order and send date to & date from
-                    var xmlhttp = new XMLHttpRequest();
-                    xmlhttp.open("POST", "user_get_orders.php", true);
-                    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    xmlhttp.send("dateTo=" + date_to + " 23:59:59" + "&dateFrom=" + date_from + " 00:00:00");
-
-                    //on change check even the request send or not and get the values of response
-
-                    xmlhttp.onreadystatechange = function () {
-
-                        if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-
-                            //get information of response of orders
-
-                            var get_order_info = xmlhttp.responseText.split(",");
-
-                            //select the table of old date and remove it
-
-                            var elem_table = document.getElementById("table");
-                            if (elem_table !== null) {
-                                elem_table.remove();
-                            }
-                            var elem_products = document.getElementById("products");
-                            if (elem_products !== null) {
-                                elem_products.remove();
-                            }
-
-                            //get row of table to append on it
-                            var table_row = document.getElementById("table_row");
-
-                            //create new table withe id table
-                            var elem_table_new = document.createElement("table");
-                            elem_table_new.setAttribute("id", "table");
-                            elem_table_new.setAttribute("class", "table table-bordered");
-
-                            var table_header = document.createElement("tr");
-                            elem_table_new.appendChild(table_header);
-
-                            table_row.appendChild(elem_table_new);
-
-                            //select table by its id to add the information on it
-                            var elem_table_exist = document.getElementById("table");
-
-                            console.log(get_order_info);
-                            console.log(get_order_info.length);
-
-                            for (var i = 0; i < get_order_info.length - 1; i++) {
-
-                                var order = get_order_info[i];
-                                console.log(order);
-
-                                //set information in table of each order in rows
-
-                                var tr = document.createElement("tr");
-                                tr.setAttribute("class", "active");
+                    //create button to cancel product
+                    var cancel_btn = document.createElement("button");
+                    cancel_btn.innerHTML = "x";
+                    cancel_btn.setAttribute("class", "btn btn-danger pull-right ");
 
 
-                                //get array of colums in each row
+                    cancel_btn.setAttribute("onclick", "cancel(" + id + ")");
 
-                                var order_data = order.split(";");
+                    //appeand parameter
+                    elem_product.appendChild(elem_product_name);
+                    elem_product.appendChild(cancel_btn);
+                    elem_product.appendChild(elem_product_amount);
+                    elem_product.appendChild(elem_product_price);
+                    elem_order.appendChild(elem_product);
 
-                                //set tr by id equal to order id
-                                tr.setAttribute("id", order_data[0]);
+                } else {
+                    //get the div of product by it`s id number
+                    var elem_exists_product = document.getElementById(id);
+                    //get value of the product and increase it by one
+                    var value = elem_exists_product.childNodes[2].value;
+                    value = parseInt(value) + 1;
+                    elem_exists_product.childNodes[2].setAttribute("value", value);
+                    //increase the price by increase it`s amount
+                    var new_price = price * value;
+                    elem_exists_product.childNodes[3].innerHTML = "  Price: " + new_price;
+                }
+                //set the total price of the order in the label of total price
+                //by select all products dev and get it`s price
 
-                                var td_date = document.createElement("td");
-                                td_date.setAttribute("class", "col-md-3");
-                                td_date.innerHTML = order_data[1];
+                var total_price = 0;
 
-                                //create button to show order by id "order_id btn"
-                                var get_product_btn = document.createElement("button");
-                                get_product_btn.setAttribute("id", order_data[0] + " btn");
-                                get_product_btn.setAttribute("class", "btn btn-success pull-right");
-                                get_product_btn.innerHTML = "+";
-                                get_product_btn.setAttribute("onclick", "show_order('" + order_data[0] + " btn" + "')");
+                var products = document.getElementsByClassName("product");
 
-
-                                var td_status = document.createElement("td");
-                                td_status.setAttribute("class", "col-md-3");
-                                td_status.innerHTML = order_data[2];
-
-
-
-                                var td_totalprice = document.createElement("td");
-                                td_totalprice.innerHTML = order_data[3];
-                                td_status.setAttribute("class", "col-md-3");
-
-                                //if the statues is processing add button cancel
-                                if (td_status.innerHTML === "processing") {
-
-
-                                    var td_cancel = document.createElement("td");
-                                    var cancel_btn = document.createElement("button");
-                                    cancel_btn.innerHTML = "Cancel";
-                                    cancel_btn.setAttribute("class", "col-md-5 btn btn-danger pull-right ");
-
-                                    //get id of the order to send it to the function onclick
-                                    var order_id = tr.getAttribute("id");
-                                    cancel_btn.setAttribute("onclick", "cancel(" + order_id + ")");
-
-                                }
-
-                                td_date.appendChild(get_product_btn);
-                                tr.appendChild(td_date);
-
-
-                                tr.appendChild(td_status);
-
-
-                                tr.appendChild(td_totalprice);
-
-
-                                if (td_status.innerHTML === "processing") {
-
-                                    td_cancel.appendChild(cancel_btn);
-
-                                    tr.appendChild(td_cancel);
-
-                                }
-
-                                elem_table_exist.appendChild(tr);
-
-                            }
-                        }
-
-                    };
-
-                    set_total_price(date_to, date_from, user_name);
+                for (var i = 0; i < products.length; i++) {
+                    total_price += parseInt(products[i].childNodes[3].innerHTML.split(" ")[3]);
                 }
 
+                var elem_order_price = document.getElementById("total_price");
+                elem_order_price.innerHTML = "Total Price: " + total_price;
+
+
+
             }
 
-            //open the service socket at port 8000
-            var exampleSocket = new WebSocket("ws://localhost:8000");
-
+            //open socket that listen to posrt 8080
+            var exampleSocket = new WebSocket("ws://127.0.0.1:8000");
 
             /**
-             * Cancel function that is calling when click on cancel action
-             * will send to server to cancel the order at the admin
+             * this function that get the order informations to insert in database
+             * @returns {undefined}
              */
-            function cancel(order_id) {
-                console.log(order_id);
 
-                //first remove the order from database
-                var xmlhttp = new XMLHttpRequest();
-                xmlhttp.open("POST", "delete_order.php", true);
-                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xmlhttp.send("order_id=" + order_id);
+            function get_order() {
 
-                //on change check even the request send or not and get the values of response
 
-                xmlhttp.onreadystatechange = function () {
+                //check if the form order has childs of products or not
+                var elem_order = document.getElementById("create_order_products");
 
-                    if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-                        console.log(xmlhttp.responseText);
+                if (elem_order.childElementCount > 0) {
 
-                        //send on socket the action first then send order_id
-                        //to remove the order at the admin
+                    //get value of all price of order
+                    var elem_order_price = document.getElementById("total_price");
+                    var orderPrice = elem_order_price.innerHTML.split(" ");
 
-                        var msg = {
-                            action: "cancel",
-                            order_id: order_id,
-                        };
+                    //get all order notes
+                    var elem_order_notes = document.getElementById("notes").value;
 
-                        //send msg as jason object
-                        exampleSocket.send(JSON.stringify(msg));
+                    //get room name from the select
+                    var elem_order_room = document.getElementById("room");
+                    var order_room = elem_order_room.options[elem_order_room.selectedIndex].text;
+
+                    var product_info = "";
+
+                    //forloop to get all product and send it in array to request
+                    for (var i = 1; i <= elem_order.childElementCount; i++) {
+
+                        var all_products = elem_order.childNodes;
+
+                        //console.log(all_products[1]);
+                        var product = all_products[i];
+
+                        //alert(product.nodeType ? "true" : "false" );
+
+                        var product_id = product.getAttribute("id");
+
+
+                        var product_amount = product.childNodes[2].value;
+
+                        var product_price = product.childNodes[3].innerHTML.split(" ")[3];
+
+
+                        product_info += product_id + ":" + product_amount + ":" + product_price + ",";
 
                     }
-                };
-                //remove the element from table
-                document.getElementById(order_id).remove();
-                //calling set total price
-                var date_to = get_date_to();
-                var date_from = get_date_from();
-                //get the user name
-                var user_name = document.getElementById("user_name").value;
 
-                set_total_price(date_to, date_from, user_name);
-            }
-
-
-            /**
-             * function show orders used to show all the products of the order
-             */
-            function show_order(bttn_id) {
-
-                //get the id of order from bttn id
-                var order_id = bttn_id.toString().split(" ")[0];
-
-                var bttn = document.getElementById(bttn_id);
-                if (bttn.innerHTML === "+") {
-                    bttn.innerHTML = "-";
-
-                    //select the contatiner to append div on it
-                    var elem_product_row = document.getElementById("products_row");
-                    // create the div with id products to append on it the products of the order
-                    var elem_products = document.createElement("div");
-                    elem_products.setAttribute("id", "products");
-                    elem_products.setAttribute("class", "row");
-
-                    //create new row with id equal to "order_id product"
-                    var elem_order_products = document.createElement("div");
-                    elem_order_products.setAttribute("id", order_id + " product");
-                    elem_order_products.setAttribute("class", "row alert alert-success");
-
-                    //open xmlhttp request that render to user_get_order_products and send order_id to get all products
+                    //open xmlhttp request that render to user_order and send total order & products
                     var xmlhttp = new XMLHttpRequest();
-                    xmlhttp.open("POST", "user_get_order_products.php", true);
+                    xmlhttp.open("POST", "user_order.php", true);
                     xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    xmlhttp.send("order_id=" + order_id);
+                    xmlhttp.send("order_price=" + orderPrice[2] + "&room=" + order_room + "&notes=" + elem_order_notes + "&array=" + product_info);
 
                     //on change check even the request send or not
 
 
                     xmlhttp.onreadystatechange = function () {
 
+                        // alert(xmlhttp.readyState);
+                        // alert(xmlhttp.status);
                         if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
 
-                            console.log(xmlhttp.responseText);
+                            //alert(xmlhttp.responseText);
 
+                            //alert(xmlhttp.responseText);
+                            //alert(xmlhttp.responseText.split(";")[5]);
 
-                            //get information of response of order products with comma separated
+                            //prepare the information of order before send on socket
+                            var order_info = xmlhttp.responseText.split(";");
+                            var order_products_info = order_info[5].split("%");
 
-                            var get_order_info = xmlhttp.responseText.split(",");
+                            var products = [];
+                            for (var i = 0; i < order_products_info.length - 1; i++) {
 
+                                var product_info = order_products_info[i].split("/");
+                                var product = {
+                                    product_name: product_info[0],
+                                    product_pic: product_info[1],
+                                    product_amount: product_info[2],
+                                    product_price: product_info[3],
+                                };
 
-                            for (var i = 0; i < get_order_info.length - 1; i++) {
-
-                                var order = get_order_info[i];
-
-                                //get information about products by semicolum separated
-                                var order_products = order.split(";");
-
-                                var product_name = order_products[0];
-                                var product_pic_path = order_products[1];
-                                var product_amount = order_products[2];
-                                var product_totalPrice = order_products[3];
-
-                                var j = i + 2;
-                                var product_colum = document.createElement("div");
-                                product_colum.setAttribute("class", "col-md-" + j);
-
-
-                                var product_name_row = document.createElement("div");
-                                product_name_row.setAttribute("class", "row");
-
-                                var product_name_label = document.createElement("label");
-                                product_name_label.innerHTML = "Name: " + product_name;
-
-
-                                var product_amount_row = document.createElement("div");
-                                product_amount_row.setAttribute("class", "row");
-
-                                var product_amount_label = document.createElement("label");
-                                product_amount_label.innerHTML = "Amount: " + product_amount;
-
-
-
-                                var product_price_row = document.createElement("div");
-                                product_price_row.setAttribute("class", "row");
-
-                                var product_price_label = document.createElement("label");
-                                product_price_label.innerHTML = "Price: " + product_totalPrice;
-
-
-                                var product_pic_row = document.createElement("div");
-                                product_pic_row.setAttribute("class", "row");
-
-                                var product_pic = document.createElement("img");
-                                product_pic.setAttribute("src", "images/products/" + product_pic_path);
-                                product_pic.setAttribute("class", "img-responsive img-circle");
-                                product_pic.setAttribute("width", "120px");
-                                product_pic.setAttribute("height", "120px");
-
-
-                                product_name_row.appendChild(product_name_label);
-                                product_amount_row.appendChild(product_amount_label);
-                                product_price_row.appendChild(product_price_label);
-                                product_pic_row.appendChild(product_pic);
-
-                                product_colum.appendChild(product_name_row);
-                                product_colum.appendChild(product_amount_row);
-                                product_colum.appendChild(product_price_row);
-                                product_colum.appendChild(product_pic_row);
-
-                                elem_order_products.appendChild(product_colum);
-
-
+                                products.push(product);
                             }
+                            var msg = {
+                                action: "confirm",
+                                order_id: order_info[0],
+                                order_date: order_info[1],
+                                user_name: order_info[2],
+                                user_ext: order_info[3],
+                                order_room: order_info[4],
+                                order_price: order_info[6],
+                                products_count: order_products_info.length,
+                                products: products,
+                            };
 
+                            // alert(JSON.stringify(msg));
+                            //send the resonse text via socket
+                            exampleSocket.send(JSON.stringify(msg));
+                            //alert("send");
 
                         }
                     };
 
-
-
-                    elem_products.appendChild(elem_order_products);
-                    elem_product_row.appendChild(elem_products);
-
-
-                } else {
-                    bttn.innerHTML = "+";
-
-                    //get the order products dev to remove
-
-                    var elem_order_products_remove = document.getElementById(order_id + " product");
-                    elem_order_products_remove.remove();
-
                 }
+
 
             }
 
             /**
-             * this function used to setthe total price
-             * @param {type} date_to
-             * @param {type} date_from
-             * @param {type} user_name
+             * this function used to increase the amount of product when changing it by hand
+             * @param {type} id
+             * @param {type} price
              * @returns {undefined}
              */
-            function set_total_price(date_to, date_from, user_name) {
 
-                //open xmlhttp request that render to admin_get_check and send date to & date from & user_name
-                var xmlhttp = new XMLHttpRequest();
-                xmlhttp.open("POST", "admin_get_check_user.php", true);
-                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xmlhttp.send("dateTo=" + date_to + " 23:59:59" + "&dateFrom=" + date_from + " 00:00:00" + "&user_name=" + user_name);
+            function add_amount(id, price) {
 
-                console.log("dateTo=" + date_to + " 23:59:59" + "&dateFrom=" + date_from + " 00:00:00" + "&user_name=" + user_name);
-                //on change check even the request send or not and get the values of response
+                //get the div of product by it`s id number
+                var elem_exists_product = document.getElementById(id);
+                //get value of the product 
+                var value = elem_exists_product.childNodes[2].value;
+                value = parseInt(value);
+                //if condition to make the value of product not decrease about 1
+                if (value < 1) {
+                    value = 1;
+                    elem_exists_product.childNodes[2].setAttribute("value", value);
+                }
+                //increase the price by increase it`s amount
+                var new_price = price * value;
+                elem_exists_product.childNodes[3].innerHTML = "  Price: " + new_price;
 
-                xmlhttp.onreadystatechange = function () {
+                //set the total price of the order in the label of total price
+                //by select all products dev and get it`s price
 
-                    if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+                var total_price = 0;
 
-                        //get information of response of orders
-                        console.log(xmlhttp.responseText);
+                var products = document.getElementsByClassName("product");
 
-                        var user_info = xmlhttp.responseText.split(";");
+                for (var i = 0; i < products.length; i++) {
+                    total_price += parseInt(products[i].childNodes[3].innerHTML.split(" ")[3]);
+                }
 
-                        var total_price = document.getElementById("total");
-                        if (user_info[1] !== "") {
-                            total_price.innerHTML = "Total: " + user_info[1];
-                        } else {
-                            total_price.innerHTML = "Total: " + "0";
-                        }
-                    }
-                };
+                var elem_order_price = document.getElementById("total_price");
+                elem_order_price.innerHTML = "Total Price: " + total_price;
+
             }
 
             /**
-             * this function to listen to recive status
-             * @param {type} event
-             * @returns {undefined}
+             * cancel function to cancel request of certain product
              */
+            function cancel(id, price) {
+                //get the div of product by it`s id number
+                var elem_exists_product = document.getElementById(id);
 
-            exampleSocket.onmessage = function (event) {
+                //remove the product request
+                elem_exists_product.remove();
 
-                //parse json object that recived from socket
-                var recived_msg = JSON.parse(event.data);
-
-                //alert(recived_msg.action);
-                switch (recived_msg.action) {
-
-                    case "status":
-
-                        var order_id = recived_msg.order_id;
-                        var status = recived_msg.status_text;
-
-
-                        //select order of tables and change it`s statues
-                        var elem_order = document.getElementById(order_id);
-                        var elem_order_childs = elem_order.childNodes;
-
-
-                        //set the status in the child of status only  and remove the cancel button
-
-                        if (elem_order_childs[1].innerHTML === "processing" || elem_order_childs[1].innerHTML === "out for delivery" || 			elem_order_childs[1].innerHTML === "done") {
-
-                            if (elem_order_childs[1].innerHTML === "processing") {
-                                elem_order_childs[3].childNodes[0].remove();
-                                elem_order_childs[3].innerHTML = " ";
-                            }
-                            elem_order_childs[1].innerHTML = status;
-
-
-
-                        } else {
-                            elem_order_childs[3].innerHTML = status;
-
-                            if (elem_order_childs[3].innerHTML === "processing") {
-                                elem_order_childs[7].childNodes[0].remove();
-                                elem_order_childs[7].innerHTML = " ";
-                            }
-                        }
-
-
-
-                        break;
+                //remove the id of element from the array
+                var index = products_id.indexOf(id)
+                if (index > -1) {
+                    products_id.splice(index, 1);
                 }
-            };
 
+                //set the total price of the order in the label of total price
+                //by select all products dev and get it`s price
+
+                var total_price = 0;
+
+                var products = document.getElementsByClassName("product");
+
+                for (var i = 0; i < products.length; i++) {
+                    total_price += parseInt(products[i].childNodes[3].innerHTML.split(" ")[3]);
+                }
+
+                var elem_order_price = document.getElementById("total_price");
+                elem_order_price.innerHTML = "Total Price: " + total_price;
+
+
+            }
 
         </script>
+
 
     </body>
 </html>
