@@ -11,7 +11,27 @@
 </head>
 <body>
 	<?php
-        session_start();
+
+    session_start();
+
+	if(!isset($_SESSION['user']) && !isset($_COOKIE['user'])){
+        header("Location: Login.php");
+    }
+
+    if(isset($_SESSION['user'])){
+        if($_SESSION['user']!="admin") {
+            echo "You have no access to this page!";
+            exit;
+        }
+    }
+
+    if(isset($_COOKIE['user'])){
+        if($_COOKIE['user']!="admin"){
+            echo "You have no access to this page!";
+            exit;
+        }
+    }
+
 	?>
 
 	<nav class="navbar navbar-inverse navbar-static-top">

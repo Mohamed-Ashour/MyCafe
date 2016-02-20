@@ -7,18 +7,23 @@ require 'database/model.php';
 	<title>My Orders</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css" charset="utf-8">	
+    <link rel="stylesheet" href="css/style.css" charset="utf-8">
 	<link rel="icon" href="images/favicon.ico" type="image/gif" sizes="32x32">
 	<script src="js/jquery-2.2.0.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 </head>
 <body>
 	<?php
-    //get User Id from login page when session start to use it in get orders  
-        session_start();
+    //get User Id from login page when session start to use it in get orders
+	session_start();
+
+	if(!isset($_SESSION['user']) && !isset($_COOKIE['user'])){
+        header("Location: Login.php");
+    }
 
 	?>
-     
+
+
 	<nav class="navbar navbar-inverse navbar-static-top">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -43,7 +48,7 @@ require 'database/model.php';
 		</div>
 	</nav>
 
-    
+
         <div class="container" id="contatiner">
             <div class="row">
 
@@ -66,7 +71,7 @@ require 'database/model.php';
                 <div class="col-sm-3 pull-right">
                     <button type="button" class="btn btn-success pull-right" onclick="select_orders()">Get my orders</button>
                     <input type="hidden" id="user_name" value="<?php
-                    //get user_id from session 
+                    //get user_id from session
                     echo $user_name = $_SESSION['user_name'];
                     ?>">
                 </div>
@@ -563,7 +568,7 @@ require 'database/model.php';
                             }
                             elem_order_childs[1].innerHTML = status;
 
-                            
+
 
                         } else {
                             elem_order_childs[3].innerHTML = status;
@@ -581,7 +586,7 @@ require 'database/model.php';
             };
 
 
-        </script> 
-      
+        </script>
+
     </body>
 </html>

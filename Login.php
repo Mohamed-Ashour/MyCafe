@@ -23,26 +23,26 @@
                 $users = $mydb->select_all();
 	            if(!empty($_POST["keep_logged"])){
 	                while($row = $users->fetch_assoc()) {
-	                    if ($_POST['email'] == $row["email"] && hash("md5", $_POST['password']) == $row["password"] && $row["is_Admin"]) {
+	                    if ($_POST['email'] == $row["email"] && hash("md5", $_POST['password']) == $row["password"] && $row["is_admin"] ) {
 	                        setcookie('user', 'admin', time() + (86400 * 30));
-	                        setcookie('email', $row["email"], time() + (86400 * 30));
+	                        setcookie('user_id', $row["id"], time() + (86400 * 30));
 	                        header("Location: AdminHome.php");
 	                    } elseif ($_POST['email'] == $row["email"] && hash("md5", $_POST['password']) == $row["password"]) {
 	                        setcookie('user', 'client', time() + (86400 * 30));
-	                        setcookie('email', $row["email"], time() + (86400 * 30));
+	                        setcookie('user_id', $row["id"], time() + (86400 * 30));
 	                        header("Location: UserOrder.php");
 	                    }
 	                }
 	            }
 	            elseif(empty($_POST["keep_logged"])){
 					while($row = $users->fetch_assoc()) {
-	                    if ($_POST['email'] == $row["email"] && hash("md5", $_POST['password']) == $row["password"] && $row["is_Admin"]) {
+	                    if ($_POST['email'] == $row["email"] && hash("md5", $_POST['password']) == $row["password"] && $row["is_admin"] ) {
 	                        $_SESSION['user'] = "admin";
-	                        $_SESSION['email'] = $row["email"];
+	                        $_SESSION['user_id'] = $row["id"];
 	                        header("Location: AdminHome.php");
 	                    } elseif ($_POST['email'] == $row["email"] && hash("md5", $_POST['password']) == $row["password"]) {
 	                        $_SESSION['user']= "client";
-	                        $_SESSION['email'] = $row["email"];
+	                        $_SESSION['user_id'] = $row["id"];
 	                        header("Location: UserOrder.php");
 	                    }
 	                }

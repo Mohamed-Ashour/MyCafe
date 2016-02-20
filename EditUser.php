@@ -11,18 +11,36 @@
 </head>
 <body>
     <?php
-    	session_start();
-    	if(isset($_POST["id"])) {
-            require_once('database/model.php');
-            $mydb = new ORM();
-            $mydb->setTable("users");
-            $user = $mydb->select(array("id"=>$_POST["id"]));
-            $row = $user->fetch_assoc();
-		}
-        else{
-            echo "Go Away!!";
-            exit();
+
+    session_start();
+
+	if(!isset($_SESSION['user']) && !isset($_COOKIE['user'])){
+        header("Location: Login.php");
+    }
+
+    if(isset($_SESSION['user'])){
+        if($_SESSION['user']!="admin") {
+            echo "You have no access to this page!";
+            exit;
         }
+    }
+
+    if(isset($_COOKIE['user'])){
+        if($_COOKIE['user']!="admin"){
+            echo "You have no access to this page!";
+            exit;
+        }
+    }
+
+	require_once('database/model.php');
+	$mydb = new ORM();
+	$mydb->setTable("users");
+
+	if( isset($_POST["id"]) ) {
+        $user = $mydb->select(array("id"=>$_POST["id"]));
+        $row = $user->fetch_assoc();
+	}
+
 	?>
 
 	<nav class="navbar navbar-inverse navbar-static-top">
@@ -53,23 +71,87 @@
 	</nav>
 
 	<div class="container" id="wrapper">
-        <h1>Add User</h1>
-		<form method="post" action="done.php" class="form-horizontal" enctype="multipart/form-data">
+		<?php
+
+		if( isset($_POST["name"]) ){
+			$key=0;
+
+			if (empty($_POST["name"])) {
+				echo "<h4 class='alert-danger'> Name is required</h4>";
+				$key=1;
+			}
+
+			$pattern='/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/';
+
+			if(!preg_match($pattern, $_POST["email"]))
+			{
+				echo "<h4 class='alert-danger'> Email is not valid</h4>";
+				$key=1;
+			}
+
+			if (empty($_POST["password"])) {
+				echo "<h4 class='alert-danger'> Password is required</h4>";
+				$key=1;
+			}
+
+			elseif ($_POST["password"] != $_POST["password_con"]) {
+				echo "<h4 class='alert-danger'> Password dose not match password confirmation</h4>";
+				$key=1;
+			}
+
+			if (empty($_POST["room"])) {
+				echo "<h4 class='alert-danger'> Room no is required</h4>";
+				$key=1;
+			}
+
+			if (empty($_POST["ext"])) {
+				echo "<h4 class='alert-danger'> User Ext. is required</h4>";
+				$key=1;
+			}
+
+			if ($key==0) {
+				// image handling
+				if( !empty($_FILES['image']['name']) ){
+					$image_path="images/users/".$_FILES['image']['name'];
+					move_uploaded_file($_FILES["image"]["tmp_name"], $image_path);
+
+					$image = $_FILES['image']['name'];
+				}
+				else {
+					$image = 'default.png';
+				}
+				// database update
+
+				$user = array('name' => $_POST["name"] , 'email' => $_POST["email"] ,
+				'password' => hash("md5", $_POST['password']) , 'room_no' => $_POST["room"] ,
+				'ext' => $_POST["ext"] , 'is_admin' => 0 , 'pic' => $image );
+				$where = array('id' => $_POST["id"]);
+				$result = $mydb->update($where, $user);
+
+				header("Location: Users.php");
+			}
+		}
+
+		?>
+
+        <h1>Edit User</h1>
+		<form method="post" action="EditUser.php" class="form-horizontal" enctype="multipart/form-data">
 			<div class="form-group panel">
 				<label class="control-label">Name</label>
-				<input type="name" name="name" class="form-control" value="<?php echo $row['name']; ?>" >
+				<input required type="name" name="name" class="form-control" value="<?php echo $row['name']; ?>" >
                 <label class="control-label">Email</label>
-				<input type="email" name="email" class="form-control" value="<?php echo $row['email']; ?>">
+				<input required type="email" name="email" class="form-control" value="<?php echo $row['email']; ?>">
                 <label class="control-label">Password</label>
-				<input type="password" name="password" class="form-control">
+				<input required type="password" name="password" class="form-control">
                 <label class="control-label">Confirm Password</label>
-				<input type="password" name="password_con" class="form-control">
+				<input required type="password" name="password_con" class="form-control">
                 <label class="control-label">Room no</label>
-				<input type="number" name="room" class="form-control" value="<?php echo $row['room_no']; ?>">
+				<input required type="number" name="room" class="form-control" value="<?php echo $row['room_no']; ?>">
                 <label class="control-label">Ext.</label>
-				<input type="tel" name="ext" class="form-control" value="<?php echo $row['ext']; ?>">
+				<input required type="tel" name="ext" class="form-control" value="<?php echo $row['ext']; ?>">
                 <label class="control-label">Profile picture</label>
 				<input type="file" name="image" class="form-control">
+				<input type="hidden" name="id" value="<?php echo $_POST["id"] ?>">
 				<br><br>
 
 				<button type="submit" value="Submit" class="btn btn-info">Submit</button>

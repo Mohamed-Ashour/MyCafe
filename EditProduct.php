@@ -11,18 +11,40 @@
 </head>
 <body>
     <?php
-    	session_start();
-		if(isset($_POST["id"])) {
-			require_once('database/model.php');
-			$mydb = new ORM();
-			$mydb->setTable("products");
-			$product = $mydb->select(array("id"=>$_POST["id"]));
-			$row = $product->fetch_assoc();
-		}
-		else{
-			echo "Go Away!!";
-			exit();
-		}
+
+	session_start();
+
+	if(!isset($_SESSION['user']) && !isset($_COOKIE['user'])){
+        header("Location: Login.php");
+    }
+
+    if(isset($_SESSION['user'])){
+        if($_SESSION['user']!="admin") {
+            echo "You have no access to this page!";
+            exit;
+        }
+    }
+
+    if(isset($_COOKIE['user'])){
+        if($_COOKIE['user']!="admin"){
+            echo "You have no access to this page!";
+            exit;
+        }
+    }
+
+	require_once('database/model.php');
+	$prod_db = new ORM();
+	$prod_db->setTable("products");
+
+	if(isset($_POST["id"])) {
+		$product = $prod_db->select(array("id"=>$_POST["id"]));
+		$row = $product->fetch_assoc();
+	}
+	else{
+		echo "Go Away!!";
+		exit();
+	}
+
     ?>
 
 	<nav class="navbar navbar-inverse navbar-static-top">
@@ -53,21 +75,86 @@
 	</nav>
 
 	<div class="container" id="wrapper">
-        <h1>Add Product</h1>
-		<form method="post" action="done.php" class="form-horizontal" enctype="multipart/form-data">
+		<?php
+
+		require_once('database/model.php');
+
+		$cat_db = new ORM();
+		$cat_db->setTable("categories");
+		$categories = $cat_db->select_all();
+		if( isset($_POST["product_name"]) ){
+			$key=0;
+
+			if (empty($_POST["product_name"])) {
+				echo "<h4 class='alert-danger'> Product name is required</h4>";
+				$key=1;
+			}
+
+			if (empty($_POST["price"])) {
+				echo "<h4 class='alert-danger'> Price is required</h4>";
+				$key=1;
+			}
+
+			if (empty($_POST["category"])) {
+				echo "<h4 class='alert-danger'> Category is required</h4>";
+				$key=1;
+			}
+
+			if ($key==0) {
+				// image handling
+				if( !empty($_FILES['image']['name']) ){
+					$image_path="images/products/".$_FILES['image']['name'];
+					move_uploaded_file($_FILES["image"]["tmp_name"], $image_path);
+					$image = $_FILES['image']['name'];
+				}
+				else {
+					$image = 'default.jpg';
+				}
+				// database insertion
+				$selected = $cat_db->select( array('name' => $_POST["category"] ) );
+				$category = $selected->fetch_assoc();
+
+				$product = array('name' => $_POST["product_name"] ,
+				'price' => $_POST["price"] , 'category_id' => $category['id'] ,
+				'is_available' => 1 , 'pic' => $image );
+				$where = array('id' => $_POST["id"]);
+				$result = $prod_db->update($where, $product);
+
+				header("Location: Products.php");
+			}
+		}
+
+		?>
+
+        <h1>Edit Product</h1>
+		<form method="post" action="EditProduct.php" class="form-horizontal" enctype="multipart/form-data">
 			<div class="form-group panel">
-				<label class="control-label">Prduct Name</label>
+				<label class="control-label">Product Name</label>
 				<input type="text" name="product_name" class="form-control" value="<?php echo $row['name']; ?>"><br>
                 <label>Price</label><br>
 				<input type="number" name="price" min="0" class="form-control price"  value="<?php echo $row['price']; ?>">
                 <span class="desc">EGP</span> <br>
                 <label class="control-label">Category</label><br>
 				<select class="form-control category" name="category">
-					<option disabled selected hidden>Category</option>
+
+					<?php
+
+					while($cat = $categories->fetch_assoc()) {
+						if ($cat['id'] == $row['category_id']) {
+							echo "<option selected value='"  . $cat['name'] . "'>" . $cat['name'] . "</option>" ;
+						}
+						else {
+							echo "<option value='"  . $cat['name'] . "'>" . $cat['name'] . "</option>" ;
+						}
+					}
+
+					?>
+
 				</select>
 				<a href="#" class="desc">Add category</a><br><br>
                 <label class="control-label">Product picture</label><br>
 				<input type="file" name="image" class="form-control pic">
+				<input type="hidden" name="id" value="<?php echo $_POST["id"] ?>">
 				<br><br>
 
 				<button type="submit" value="Submit" class="btn btn-info">Submit</button>

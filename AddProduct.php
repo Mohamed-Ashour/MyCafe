@@ -11,7 +11,27 @@
 </head>
 <body>
     <?php
-    	session_start();
+
+	session_start();
+
+	if(!isset($_SESSION['user']) && !isset($_COOKIE['user'])){
+        header("Location: Login.php");
+    }
+
+    if(isset($_SESSION['user'])){
+        if($_SESSION['user']!="admin") {
+            echo "You have no access to this page!";
+            exit;
+        }
+    }
+
+    if(isset($_COOKIE['user'])){
+        if($_COOKIE['user']!="admin"){
+            echo "You have no access to this page!";
+            exit;
+        }
+    }
+
     ?>
 
 	<nav class="navbar navbar-inverse navbar-static-top">
@@ -42,8 +62,61 @@
 	</nav>
 
 	<div class="container" id="wrapper">
+		<?php
+
+		require_once('database/model.php');
+
+		$cat_db = new ORM();
+		$cat_db->setTable("categories");
+		$categories = $cat_db->select_all();
+		if($_POST){
+			$key=0;
+
+			if (empty($_POST["product_name"])) {
+				echo "<h4 class='alert-danger'> Product name is required</h4>";
+				$key=1;
+			}
+
+			if (empty($_POST["price"])) {
+				echo "<h4 class='alert-danger'> Price is required</h4>";
+				$key=1;
+			}
+
+			if (empty($_POST["category"])) {
+				echo "<h4 class='alert-danger'> Category is required</h4>";
+				$key=1;
+			}
+
+			if ($key==0) {
+				// image handling
+				if( !empty($_FILES['image']['name']) ){
+					$image_path="images/products/".$_FILES['image']['name'];
+					move_uploaded_file($_FILES["image"]["tmp_name"], $image_path);
+					$image = $_FILES['image']['name'];
+				}
+				else {
+					$image = 'default.jpg';
+				}
+				// database insertion
+
+				$selected = $cat_db->select( array('name' => $_POST["category"] ) );
+				$category = $selected->fetch_assoc();
+
+				$prod_db = new ORM();
+				$prod_db->setTable("products");
+				$product = array('name' => $_POST["product_name"] ,
+				'price' => $_POST["price"] , 'category_id' => $category[id] ,
+				'is_available' => 1 , 'pic' => $image );
+				$result = $prod_db->insert($product);
+
+				header("Location: Products.php");
+			}
+		}
+
+		?>
+
         <h1>Add Product</h1>
-		<form method="post" action="done.php" class="form-horizontal" enctype="multipart/form-data">
+		<form method="post" action="AddProduct.php" class="form-horizontal" enctype="multipart/form-data">
 			<div class="form-group panel">
 				<label class="control-label">Prduct Name</label>
 				<input type="text" name="product_name" class="form-control"><br>
@@ -52,6 +125,14 @@
                 <label class="control-label">Category</label><br>
 				<select class="form-control category" name="category">
 					<option disabled selected hidden>Category</option>
+					<?php
+
+					while($row = $categories->fetch_assoc()) {
+						echo "<option value='" . $row['name'] . "'>" . $row['name'] . "</option>" ;
+					}
+
+					?>
+
 				</select>
 				<a href="#" class="desc">Add category</a><br><br>
                 <label class="control-label">Product picture</label><br>

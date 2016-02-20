@@ -11,7 +11,13 @@
 </head>
 <body>
 	<?php
-        session_start();
+
+	session_start();
+
+	if(!isset($_SESSION['user'])&&!isset($_COOKIE['user'])){
+    	header("Location: Login.php");
+	}
+
 	?>
 
 	<nav class="navbar navbar-inverse navbar-static-top">

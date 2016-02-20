@@ -11,7 +11,27 @@
 </head>
 <body>
     <?php
-    	session_start();
+
+    session_start();
+
+	if(!isset($_SESSION['user']) && !isset($_COOKIE['user'])){
+        header("Location: Login.php");
+    }
+
+    if(isset($_SESSION['user'])){
+        if($_SESSION['user']!="admin") {
+            echo "You have no access to this page!";
+            exit;
+        }
+    }
+
+    if(isset($_COOKIE['user'])){
+        if($_COOKIE['user']!="admin"){
+            echo "You have no access to this page!";
+            exit;
+        }
+    }
+
     ?>
 
 	<nav class="navbar navbar-inverse navbar-static-top">
@@ -98,11 +118,11 @@
 				require_once('database/model.php');
 				$mydb = new ORM();
 				$mydb->setTable("users");
-				$user = $arrayName = array('name' => $_POST["name"] , 'email' => $_POST["email"] ,
+				$user = array('name' => $_POST["name"] , 'email' => $_POST["email"] ,
 				'password' => hash("md5", $_POST['password']) , 'room_no' => $_POST["room"] ,
 				'ext' => $_POST["ext"] , 'is_admin' => 0 , 'pic' => $image );
-				$products = $mydb->insert($user);
-				//header("Location: Users.php");
+				$result = $mydb->insert($user);
+				header("Location: Users.php");
 			}
 		}
 
