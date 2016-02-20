@@ -25,6 +25,7 @@ require 'database/model.php';
 	elseif (isset($_COOKIE['user'])) {
 		$user_name = $_COOKIE['user'];
 		$user_pic = $_COOKIE['user'];
+		
 	}
 
 	elseif ( isset($_SESSION['user']) ) {
