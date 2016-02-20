@@ -45,19 +45,59 @@
 	</nav>
 
     <div class="container">
-        <div class="col-lg-4 orders">
-            <form class="form-horizontal" action="" method="post">
-                <label class="control-label">Notes</label>
-				<textarea name="notes"  class="form-control" rows="3"></textarea>
-                <br>
-				<label class="control-label">Room</label>
-				<select name="room"  class="form-control room">
-                    <option disabled selected hidden>Choose your room</option>
-				</select>
-                <hr>
-                <button type="submit" value="Submit" class="btn btn-info orderSubmit">Confirm</button>
-            </form>
-        </div>
+            <div class=" col-md-3 panel panel-default"  id="create_order">
+                <div class="panel panel-heading">
+
+                    <h1>   Order  </h1>
+                </div>
+                <form method="post"  >
+                    <div class="row panel-body" id="create_order_products">
+
+                    </div>
+                    <label  class="col-sm-2 control-label">Notes:</label>
+                    <textarea class="form-control" rows="3" id="notes"></textarea>
+                    <label  class="col-sm-2 control-label">Rooms:</label>
+                    <select name="room" id="room" class="form-control">
+                        <?php
+                        /**
+                         * get all rooms numbers
+                         */
+                        $obj_rooms = ORM::getInstance();
+                        $obj_rooms->setTable('rooms');
+
+                        $all_rooms = $obj_rooms->select_all();
+
+                        if ($all_rooms->num_rows > 0) {
+
+                            while ($room = $all_rooms->fetch_assoc()) {
+                                foreach ($room as $key => $value) {
+                                    ?>
+                                    <option value="<?php echo $room['number']; ?>"><?php echo $room['number']; ?>
+                                        <?php
+                                    }
+                                }
+                            } else {
+                                ?>
+                            <option>NO Rooms
+                                <?php
+                            }
+                            ?>
+                    </select>
+                    <input type='submit' name='confirm' value='Confirm' class="btn btn-primary" onclick="get_order()"><br/>
+                    <label id="total_price" class=" control-label">Total Price: 0</label>
+                </form>
+            </div>
+            <div class="col-md-9 panel panel-default">
+                <div class="row panel-body">
+
+                    <div class="panel panel-heading panel panel-warning">
+
+                        <h1> Last order</h1>
+                    </div>
+			
+                    <?php
+			/////////////////////////////////////////////
+			?>
     </div>
 
 
