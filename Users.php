@@ -35,6 +35,12 @@
 	require_once('database/model.php');
 	$mydb = new ORM();
 	$mydb->setTable("users");
+
+	if($_POST) {
+		$where = array('id' => $_POST['id'] );
+		$mydb->delete($where);
+	}
+
 	$users = $mydb->select_all();
 
 	?>
@@ -61,6 +67,12 @@
 		      	<ul class="nav navbar-nav navbar-right">
 					<li><img src="images/admin.png" alt="admin" width="50px" height="50px" /></li>
 		        	<li><a>Admin</a></li>
+					<li>
+						<form action="Logout.php" method="post" >
+				            <input type="hidden" name="ss" value="any">
+				            <button type="submit" class="add-user btn btn-default logout">Logout</button>
+				        </form>
+					</li>
 				</ul>
 		    </div>
 		</div>

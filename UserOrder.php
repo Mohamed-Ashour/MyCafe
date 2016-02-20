@@ -18,6 +18,16 @@
     	header("Location: Login.php");
 	}
 
+	elseif (isset($_COOKIE['user'])) {
+		$user_name = $_COOKIE['user'];
+		$user_pic = $_COOKIE['user'];
+	}
+
+	elseif ( isset($_SESSION['user']) ) {
+		$user_name = $_SESSION['user'];
+		$user_pic = $_SESSION['user_pic'];
+	}
+
 	?>
 
 	<nav class="navbar navbar-inverse navbar-static-top">
@@ -37,8 +47,14 @@
 					<li><a href="MyOrders.php">My Orders</a></li>
 		      	</ul>
 		      	<ul class="nav navbar-nav navbar-right">
-					<li><img src="images/user.png" alt="user" width="50px" height="50px" /></li>
-		        	<li><a>name</a></li>
+					<li><img src="images/users/<?php echo $user_pic; ?>" alt="user" width="50px" height="50px" /></li>
+		        	<li><a><?php echo $user_name; ?></a></li>
+					<li>
+						<form action="Logout.php" method="post" >
+				            <input type="hidden" name="ss" value="any">
+				            <button type="submit" class="add-user btn btn-default logout">Logout</button>
+				        </form>
+					</li>
 				</ul>
 		    </div>
 		</div>
@@ -94,7 +110,7 @@
 
                         <h1> Last order</h1>
                     </div>
-			
+
                     <?php
 			/////////////////////////////////////////////
 			?>

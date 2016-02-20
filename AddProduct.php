@@ -56,6 +56,12 @@
 		      	<ul class="nav navbar-nav navbar-right">
 					<li><img src="images/admin.png" alt="admin" width="50px" height="50px" /></li>
 		        	<li><a>Admin</a></li>
+					<li>
+						<form action="Logout.php" method="post" >
+				            <input type="hidden" name="ss" value="any">
+				            <button type="submit" class="add-user btn btn-default logout">Logout</button>
+				        </form>
+					</li>
 				</ul>
 		    </div>
 		</div>
@@ -119,12 +125,13 @@
 		<form method="post" action="AddProduct.php" class="form-horizontal" enctype="multipart/form-data">
 			<div class="form-group panel">
 				<label class="control-label">Prduct Name</label>
-				<input type="text" name="product_name" class="form-control"><br>
+				<input required type="text" name="product_name" class="form-control"><br>
                 <label>Price</label><br>
-				<input type="number" name="price" min="0" class="form-control price" > <span class="desc">EGP</span> <br>
+				<input required type="number" name="price" min="0" class="form-control price" > <span class="desc">EGP</span> <br>
                 <label class="control-label">Category</label><br>
 				<select class="form-control category" name="category">
 					<option disabled selected hidden>Category</option>
+
 					<?php
 
 					while($row = $categories->fetch_assoc()) {
