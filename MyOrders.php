@@ -317,7 +317,7 @@ require 'database/model.php';
             }
 
             //open the service socket at port 8000
-            var exampleSocket = new WebSocket("ws://127.0.0.1:8000");
+            var exampleSocket = new WebSocket("ws://localhost:8000");
 
 
             /**
@@ -453,7 +453,7 @@ require 'database/model.php';
                                 product_pic_row.setAttribute("class", "row");
 
                                 var product_pic = document.createElement("img");
-                                product_pic.setAttribute("src", "../images/products/" + product_pic_path);
+                                product_pic.setAttribute("src", "images/products/" + product_pic_path);
                                 product_pic.setAttribute("class", "img-responsive img-circle");
                                 product_pic.setAttribute("width", "120px");
                                 product_pic.setAttribute("height", "120px");
