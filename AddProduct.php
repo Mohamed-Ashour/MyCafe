@@ -141,7 +141,7 @@
 					?>
 
 				</select>
-				<a href="#" class="desc">Add category</a><br><br>
+				<a href="AddCategory.php" class="desc">Add category</a><br><br>
                 <label class="control-label">Product picture</label><br>
 				<input type="file" name="image" class="form-control pic">
 				<br><br>

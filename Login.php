@@ -57,7 +57,7 @@
 	        <form method="post" action="Login.php" class="form-horizontal loginForm">
 				<h1 class="title">My Cafe</h1><br>
 				<div class="form-group">
-	                <label class="control-label">Emaile</label>
+	                <label class="control-label">Email</label>
 	                <input type="email" name="email" class="form-control " required>
 	                <label class="control-label">Password</label>
 	                <input type="password" name="password" class="form-control" required>
@@ -66,7 +66,7 @@
 	                </div><br>
 	                <button type="submit" value="login" class="btn btn-info">Login</button>
 					<br><br><br>
-					<a href="#">Forget Password</a>
+					<a href="ForgotPassword.php">Forgot Password?</a>
 
 	                <?php
 	                    if($_POST){
