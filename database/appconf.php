@@ -4,7 +4,7 @@
  *Global array of configration database
  */
 $GLOBALS['conf'] = array(
-    'host'=>'http://mycafe-itibears.rhcloud.com',
+    'host'=>'localhost',
     'username'=>'bears',
     'password' =>'iti',
     'database' =>'cafeteria'
