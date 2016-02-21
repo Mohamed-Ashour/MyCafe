@@ -85,5 +85,6 @@ hr {
 }
 
 .product_div {
-    height: 150px
+    height: 150px;
+    cursor: pointer;
 }

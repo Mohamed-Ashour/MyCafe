@@ -80,7 +80,7 @@
 
     <div class="container">
 		<a href="AddUser.php" class="add-user btn btn-info">Add User</a><br><br>
-        <table class="table table">
+        <table class="table table-responsive">
 			<thead>
                 <tr>
                     <th>Name</th>

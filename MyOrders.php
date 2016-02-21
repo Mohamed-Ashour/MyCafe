@@ -31,9 +31,9 @@ require 'database/model.php';
         $user_id = $_SESSION['user_id'];
 		$user_name = $_SESSION['user'];
 		$user_pic = $_SESSION['user_pic'];
-		
+
 	}
-	//echo $user_name;	
+	//echo $user_name;
 	?>
 
 
@@ -90,8 +90,8 @@ require 'database/model.php';
                 <div class="col-sm-3 pull-right">
                     <button type="button" class="btn btn-success pull-right" onclick="select_orders()">Get my orders</button>
                     <input type="hidden" id="user_name" value="<?php
-                    //get user_id from session 
-                    echo $user_name = $user_name;
+                    //get user_id from session
+                    echo $user_name;
                     ?>">
                 </div>
             </div>
@@ -159,7 +159,7 @@ require 'database/model.php';
             </div>
 
 
-            
+
         </div>
 
         <script>
@@ -588,7 +588,7 @@ require 'database/model.php';
                             }
                             elem_order_childs[1].innerHTML = status;
 
-                            
+
 
                         } else {
                             elem_order_childs[3].innerHTML = status;
