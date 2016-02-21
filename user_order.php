@@ -14,7 +14,19 @@ $order_room=$_POST['room'];
 
 //get user_id from session 
 session_start(); 
-$user_id=$_SESSION['user_id'];
+if (isset($_COOKIE['user'])) {
+        $user_id = $_COOKIE['user_id'];
+		$user_name = $_COOKIE['user'];
+		$user_pic = $_COOKIE['user_pic'];
+		
+	}
+
+	elseif ( isset($_SESSION['user']) ) {
+        $user_id = $_SESSION['user_id'];
+
+		$user_name = $_SESSION['user'];
+		$user_pic = $_SESSION['user_pic'];
+	}
 
 $status = "processing";
 

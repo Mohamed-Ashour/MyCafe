@@ -22,15 +22,18 @@ require 'database/model.php';
     }
 
 	elseif (isset($_COOKIE['user'])) {
+        $user_id = $_COOKIE['user_id'];
 		$user_name = $_COOKIE['user'];
-		$user_pic = $_COOKIE['user'];
+		$user_pic = $_COOKIE['user_pic'];
 	}
 
 	elseif ( isset($_SESSION['user']) ) {
+        $user_id = $_SESSION['user_id'];
 		$user_name = $_SESSION['user'];
 		$user_pic = $_SESSION['user_pic'];
+		
 	}
-
+	//echo $user_name;	
 	?>
 
 
@@ -51,7 +54,7 @@ require 'database/model.php';
 					<li class="active"><a href="MyOrders.php">My Orders<span class="sr-only">(current)</span></a></li>
 		      	</ul>
 		      	<ul class="nav navbar-nav navbar-right">
-					<li><img src="images/users/<?php echo $user_pic; ?>" alt="user" width="50px" height="50px" /></li>
+					<li><img src='images/users/<?php echo $user_pic; ?>' alt='user' width='50px' height='50px' /></li>
 		        	<li><a><?php echo $user_name; ?></a></li>
 					<li>
 						<form action="Logout.php" method="post" >
@@ -88,7 +91,7 @@ require 'database/model.php';
                     <button type="button" class="btn btn-success pull-right" onclick="select_orders()">Get my orders</button>
                     <input type="hidden" id="user_name" value="<?php
                     //get user_id from session 
-                    echo $user_name = $_SESSION['user_name'];
+                    echo $user_name = $user_name;
                     ?>">
                 </div>
             </div>
@@ -112,7 +115,7 @@ require 'database/model.php';
                         $obj_orders = ORM::getInstance();
                         $obj_orders->setTable('orders');
 
-                        $all_orders = $obj_orders->select_date("datetime", $datefrom, $dateto, array("user_id" => $_SESSION['user_id']));
+                        $all_orders = $obj_orders->select_date("datetime", $datefrom, $dateto, array("user_id" => $user_id));
                         if ($all_orders->num_rows > 0) {
                             while ($order = $all_orders->fetch_assoc()) {
                                 ?>
@@ -160,7 +163,7 @@ require 'database/model.php';
         </div>
 
         <script>
-
+		//console.log(<?php echo $user_name ?>);
 
             /**
              * function to get the value of date to when key up
@@ -181,7 +184,7 @@ require 'database/model.php';
             //get the total price for default date
             var date_to = get_date_to();
             var date_from = get_date_from();
-            set_total_price(date_to, date_from, "<?php echo $_SESSION['user_name']; ?>");
+            set_total_price(date_to, date_from, "<?php echo $user_name ?>");
 
 
             /**
@@ -195,7 +198,7 @@ require 'database/model.php';
                 var date_from = get_date_from();
                 //get the user name
                 var user_name = document.getElementById("user_name").value;
-                console.log(user_name);
+                //console.log(user_name);
 
                 //get orders when the user select dates
                 if (date_to !== "" && date_from !== "") {
