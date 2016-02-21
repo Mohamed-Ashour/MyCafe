@@ -1,10 +1,10 @@
 login 						
-order use		userHome	user
-my orders					user
-order admin					admin
-products					admin
-users						admin
-add user 					admin
-add product 				admin
-checks	 					admin
-admin home 		adminHome	admin
+order use		userHome											user
+my orders		use(user_get_orders,delete_order,user_get_order_productsadmin_get_check_user)			user
+order admin														admin
+products														admin
+users															admin
+add user 														admin
+add product 														admin
+checks	 		use(admin_get_check_user,admin_get_checks_order,user_get_order_products)			admin
+admin home 		 use (order_status)										admin
