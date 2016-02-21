@@ -1,12 +1,11 @@
 <?php
 
-/* 
+/*
  *Global array of configration database
  */
 $GLOBALS['conf'] = array(
-    'host'=>'localhost',
+    'host'=>'http://mycafe-itibears.rhcloud.com',
     'username'=>'bears',
     'password' =>'iti',
     'database' =>'cafeteria'
 );
-

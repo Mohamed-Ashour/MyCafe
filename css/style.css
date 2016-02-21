@@ -78,8 +78,12 @@ hr {
 }
 
 .logout {
-    margin-top: 0;    
+    margin-top: 0;
     margin-top: 8px;
     margin-bottom: 8px;
     margin-right: 2px;
+}
+
+.product_div {
+    height: 150px
 }
