@@ -25,13 +25,12 @@ require 'database/model.php';
 	elseif (isset($_COOKIE['user'])) {
         $user_id = $_COOKIE['user_id'];
 		$user_name = $_COOKIE['user'];
-<<<<<<< HEAD
+
 		$user_pic = $_COOKIE['user_pic'];
 		
-=======
-		$user_pic = $_COOKIE['user'];
 
->>>>>>> 1111ac79b059418ae0dcba36cccc08a976cb7be5
+		//$user_pic = $_COOKIE['user_pic'];
+
 	}
 
 	elseif ( isset($_SESSION['user']) ) {
