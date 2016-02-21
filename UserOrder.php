@@ -25,8 +25,13 @@ require 'database/model.php';
 	elseif (isset($_COOKIE['user'])) {
         $user_id = $_COOKIE['user_id'];
 		$user_name = $_COOKIE['user'];
+<<<<<<< HEAD
 		$user_pic = $_COOKIE['user_pic'];
 		
+=======
+		$user_pic = $_COOKIE['user'];
+
+>>>>>>> 1111ac79b059418ae0dcba36cccc08a976cb7be5
 	}
 
 	elseif ( isset($_SESSION['user']) ) {
@@ -71,7 +76,7 @@ require 'database/model.php';
 <div class="container">
             <div class=" col-md-3 panel panel-default"  id="create_order">
                 <div class="panel panel-heading">
-
+				<h1> <small>Order</small></h1>
                 </div>
                 <form method="post"  >
                     <div class="row panel-body" id="create_order_products">
@@ -206,7 +211,7 @@ require 'database/model.php';
                             $j = 1;
                             while ($row = $products->fetch_assoc()) {
                                 ?>
-                                <div class="col-md-3">
+                                <div class="col-md-3 product_div">
                                     <img src="<?php echo "images/products/" . $row['pic']; ?>" width="100px" height="100px" class="img-responsive img-circle"
                                          onclick="add_product('<?php echo $row['name']; ?>',<?php echo $row['id']; ?>,<?php echo $row['price']; ?>)">
                                     <div class="row col-lg-offset-2 badge "> <?php echo $row['price']; ?> .LE</div>
@@ -226,10 +231,10 @@ require 'database/model.php';
         </div>
         <script>
 
-            //global array of products id 
+            //global array of products id
             var products_id = [];
             /**
-             * this function to append the product in order form 
+             * this function to append the product in order form
              * @param {type} name
              * @param {type} id
              * @param {type} price
@@ -434,7 +439,7 @@ require 'database/model.php';
 
                 //get the div of product by it`s id number
                 var elem_exists_product = document.getElementById(id);
-                //get value of the product 
+                //get value of the product
                 var value = elem_exists_product.childNodes[2].value;
                 value = parseInt(value);
                 //if condition to make the value of product not decrease about 1

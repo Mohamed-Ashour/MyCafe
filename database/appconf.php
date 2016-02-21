@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  *Global array of configration database
  */
 $GLOBALS['conf'] = array(
@@ -9,4 +9,3 @@ $GLOBALS['conf'] = array(
     'password' =>'iti',
     'database' =>'cafeteria'
 );
-

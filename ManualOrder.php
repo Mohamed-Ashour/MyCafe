@@ -168,7 +168,7 @@ require 'database/model.php';
                             $j = 1;
                             while ($row = $products->fetch_assoc()) {
                                 ?>
-                                <div class="col-md-3">
+                                <div class="col-md-3 product_div">
                                     <img src="<?php echo "images/products/" . $row['pic']; ?>" width="120px" height="120px" class="img-responsive img-circle"
                                          onclick="add_product('<?php echo $row['name']; ?>',<?php echo $row['id']; ?>,<?php echo $row['price']; ?>)">
                                     <div class="row col-lg-offset-2 badge "> <?php echo $row['price']; ?> .LE</div>
