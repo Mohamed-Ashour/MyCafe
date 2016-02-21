@@ -344,7 +344,7 @@ require 'database/model.php';
                                 products: products,
                             };
 
-                            // alert(JSON.stringify(msg));
+                             //alert(JSON.stringify(msg));
                             //send the resonse text via socket
                             exampleSocket.send(JSON.stringify(msg));
                             //alert("send");

@@ -1,6 +1,6 @@
 <?php
 
-require '../model/model.php';
+require 'database/model.php';
 
 //get or=der_id from the request
 $order_id= $_POST['order_id'];

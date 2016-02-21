@@ -513,7 +513,7 @@ require 'database/model.php';
                                 product_pic_row.setAttribute("class", "row");
 
                                 var product_pic = document.createElement("img");
-                                product_pic.setAttribute("src", "../images/products/" + product_pic_path);
+                                product_pic.setAttribute("src", "images/products/" + product_pic_path);
                                 product_pic.setAttribute("class", "img-responsive img-circle");
                                 product_pic.setAttribute("width", "120px");
                                 product_pic.setAttribute("height", "120px");
