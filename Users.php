@@ -38,7 +38,7 @@
 
 	if($_POST) {
 		$where = array('id' => $_POST['id'] );
-		$mydb->delete($where);
+		$result = $mydb->delete($where);
 	}
 
 	$users = $mydb->select_all();
