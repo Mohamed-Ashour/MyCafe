@@ -35,10 +35,16 @@
 	require_once('database/model.php');
 	$mydb = new ORM();
 	$mydb->setTable("users");
+	$myord = new ORM();
+	$myord->setTable("orders");
 
 	if($_POST) {
+		$where = array('user_id' => $_POST['id'] );
+		$result = $myord->delete($where);
+		echo $result;
 		$where = array('id' => $_POST['id'] );
 		$result = $mydb->delete($where);
+		echo $result;
 	}
 
 	$users = $mydb->select_all();
